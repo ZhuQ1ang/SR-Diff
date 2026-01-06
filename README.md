@@ -50,6 +50,10 @@ Image restoration, a pivotal challenge in computer vision, aims to recover high-
   - cuda: 11.4
 * python 3.8
 ### Install
+This project is implemented in Python 3.8 and relies on several deep learning and computer vision libraries.
+Before running the code, please ensure that a compatible CUDA environment is properly installed on your system.
+
+We recommend using a virtual environment (e.g., conda or venv) to avoid dependency conflicts.
 ```bash
 pip install -r requirements.txt
 ```
@@ -85,6 +89,10 @@ datasets/val
 
 ### Training
 #### Semantic Refinement Module
+This stage focuses on semantic extraction and refinement.
+We first extract semantic embeddings from low-quality (LQ) images and their corresponding ground-truth (GT) images using a vision-language model. These paired semantic representations are then used to train the Semantic Refinement Module, which aims to align degraded-image semantics with clean-image semantics.
+
+This module serves as a lightweight yet effective semantic enhancer and will later be frozen and used to guide the diffusion-based restoration model.
 ```bash
 ###Enter the sr/ directory:
 cd sr/
@@ -94,6 +102,10 @@ python getCLS.py
 python train.py 
 ```
 #### Image Restoration
+This stage corresponds to the main image restoration framework.
+It implements a score-based diffusion model (SDE formulation) and integrates the refined semantic embeddings as conditional inputs to guide the reverse diffusion process.
+
+During training, the previously trained Semantic Refinement Module is fixed, and only the diffusion model parameters are optimized.
 ```bash
 ###Enter the ir/ directory:
 cd ir/
