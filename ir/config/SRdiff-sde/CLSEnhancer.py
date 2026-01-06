@@ -68,10 +68,10 @@ class CLSEnhancer(nn.Module):
         return out.squeeze(1)
 
 
-# 验证代码
 if __name__ == "__main__":
     model = CLSEnhancer()
     test_input = torch.randn(1, 768)
     output = model(test_input)
     print(f"输入维度: {test_input.shape}")
+
     print(f"输出维度: {output.shape}")
