@@ -8,14 +8,40 @@ Image restoration, a pivotal challenge in computer vision, aims to recover high-
 [YuGuo Wu]
 
 ## Some Results
-![workplace]()
-<div align='center'>Comparison of LPIPS and SSIM performance under different mask ratios using vairous methods</div>
-![workplace]()
-<div align='center'>Comparison of LPIPS and SSIM performance under different mask ratios using vairous methods</div>
-![workplace]()
-<div align='center'>Comparison of LPIPS and SSIM performance under different mask ratios using vairous methods</div>
-![workplace]()
-<div align='center'>Comparison of LPIPS and SSIM performance under different mask ratios using vairous methods</div>
+<p align="center">
+  <img src="figs/1.png" width="600">
+</p>
+
+<div align='center'> (a) Quantitative comparison on the RESIDE-6K dataset for image dehazing. (b) Quantitative comparison on the Rain100H dataset for image deraining.</div>
+
+
+<p align="center">
+  <img src="figs/3.png" width="600">
+</p>
+
+<div align='center'>Qualitative dehazing results on RESIDE-6K. LQ denotes the hazy input image; GT denotes the ground truth.</div>
+
+
+<p align="center">
+  <img src="figs/4.png" width="600">
+
+</p>
+
+<div align='center'>Qualitative low-light enhancement results on LOL. LQ denotes the low-light input, and GT denotes the ground truth.</div>
+
+
+<p align="center">
+  <img src="figs/5.png" width="600">
+</p>
+
+<div align='center'>Qualitative motion deblurring results on the GoPro dataset. LQ denotes the motion-blurred image; GT denotes the ground truth.</div>
+
+
+<p align="center">
+  <img src="figs/6.png" width="600">
+</p>
+
+<div align='center'>Qualitative single-image deraining results on the Rain100H dataset. LQ denotes the rain-corrupted input, and GT represents the ground truth.</div>
 
 ## How to run the code?
 
@@ -24,14 +50,14 @@ Image restoration, a pivotal challenge in computer vision, aims to recover high-
   - cuda: 11.4
 * python 3.8
 ### Install
+```bash
 pip install -r requirements.txt
-
+```
 ### Dataset Preparation
 Preparing the train and test datasets following our paper Dataset Construction section as:
 
 ```bash
 #### for training dataset ####
-#### (uncompleted means inpainting) ####
 datasets/train
 |--hazy
 |  |--LQ/*.png
@@ -48,12 +74,61 @@ datasets/train
 #### Dataset Links
 | Degradation |                                  motion-blurry                                  |                                                 hazy                                                 |                                                  rain                                                 |                                   low-light                                   |             
 |-------------|:-------------------------------------------------------------------------------:|:----------------------------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------:|
-| Datasets    | [Gopro](https://drive.google.com/file/d/1y4wvPdOG3mojpFCHTqLgriexhbjoWVkK/view) | [RESIDE-6k](https://drive.google.com/drive/folders/1XVD0x74vKQ0-cqazACUZnjUOWURXIeqH?usp=drive_link) | [Rain100H](http://www.icst.pku.edu.cn/struct/att/RainTrainH.zip) | [LOL](https://drive.google.com/file/d/157bjO1_cFuSd0HWDUuAmcHRJDVyWpOxB/view) | 
-| RestoreCLS  | [Gopro](https://drive.google.com/file/d/1y4wvPdOG3mojpFCHTqLgriexhbjoWVkK/view) | [RESIDE-6k](https://drive.google.com/drive/folders/1XVD0x74vKQ0-cqazACUZnjUOWURXIeqH?usp=drive_link) | [Rain100H](http://www.icst.pku.edu.cn/struct/att/RainTrainH.zip) | [LOL](https://drive.google.com/file/d/157bjO1_cFuSd0HWDUuAmcHRJDVyWpOxB/view) |
+| Datasets    | [Gopro](https://drive.google.com/file/d/1y4wvPdOG3mojpFCHTqLgriexhbjoWVkK/view) | [RESIDE-6k](https://drive.google.com/drive/folders/1XVD0x74vKQ0-cqazACUZnjUOWURXIeqH?usp=drive_link) | [Rain100H](https://www.kaggle.com/datasets/bshaurya/rain-dataset?utm_source=chatgpt.com) | [LOL](https://drive.google.com/file/d/157bjO1_cFuSd0HWDUuAmcHRJDVyWpOxB/view) | 
 
 #### for testing dataset ####
 #### (the same structure as train) ####
 datasets/val
 ...
+
+
+
+### Training
+#### Semantic Refinement Module
+```bash
+###Enter the sr/ directory:
+cd sr/
+###Extract semantic embeddings for low-quality (LQ) and ground-truth (GT) images:
+python getCLS.py 
+###Train the semantic enhancement module:
+python train.py 
+```
+#### Image Restoration
+```bash
+###Enter the ir/ directory:
+cd ir/
+python train.py -opt options/train.yml
+
+```
+### Evaluation
+To evalute our method on image restoration, please modify the benchmark path and model path and run
+Pretrained model weights for the experiments are available at the following link: [Download](https://drive.google.com/drive/folders/1Qbch30zXO_zr6EgUkN8ZkSsRI6-VJRsg?usp=sharing)
+
+
+```bash
+cd ir/
+python test.py -opt options/test.yml
+```
+
+### Notes
+
+1. Send e-mail to zhuqiang1017@foxmail.com if you have critical issues to be addressed.
+2. Please note that there exists the slight gap in the final version due to errors caused by different testing devices and environments.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
